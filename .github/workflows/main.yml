@@ -14,15 +14,15 @@ jobs:
 
       - name: Install dependencies and Build
         run: |
-          npm install
+          npm install --legacy-peer-deps
           npm run build
-        working-directory: library
+        working-directory: .
 
       - name: rsync deployments
         uses: burnett01/rsync-deployments@5.1
         with:
           switches: -avzr --delete
-          path: library/*
+          path: ./*
           remote_path: /home/ec2-user/app/
           remote_host: 13.232.23.217
           remote_user: ec2-user
