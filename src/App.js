@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import SearchBar from './components/SearchBar';
+import BookList from './components/BookList';
 
-function App() {
+const App = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredBooks, setFilteredBooks] = useState([
+    { id: 1, title: 'Learn Python', author: 'John Doe', available: true },
+    { id: 2, title: 'Mastering C++', author: 'Jane Smith', available: true },
+    { id: 3, title: 'JavaScript for Beginners', author: 'Robert Brown', available: false },
+    { id: 4, title: 'Advanced Java', author: 'Emily White', available: true },
+    { id: 5, title: 'Data Structures in C', author: 'Michael Green', available: true },
+    { id: 6, title: 'Algorithms in Python', author: 'Sarah Black', available: false },
+  ]);
+  const [borrowedBooks, setBorrowedBooks] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Library Management System</h1>
+      <SearchBar
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        setFilteredBooks={setFilteredBooks}
+      />
+      <BookList
+        books={filteredBooks}
+        borrowedBooks={borrowedBooks}
+        setBorrowedBooks={setBorrowedBooks}
+        setFilteredBooks={setFilteredBooks}
+      />
     </div>
   );
-}
+};
 
 export default App;

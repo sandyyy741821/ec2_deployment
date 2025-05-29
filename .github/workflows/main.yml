@@ -1,0 +1,50 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies and Build
+        run: |
+          npm install
+          npm run build
+
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@5.1
+        with:
+          switches: -avzr --delete
+          path: library/*
+          remote_path: /home/ec2-user/app/
+          remote_host: 13.232.23.217
+          remote_user: ec2-user
+          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
+
+      - name: Set ownership and permissions on remote server
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+          mkdir -p /home/runner/.ssh
+          ssh-keygen -R 13.232.23.217 || true
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ec2-user@13.232.23.217 \
+          "sudo chown -R ec2-user:nginx /home/ec2-user/app/ && \
+           chmod +x /home/ec2-user/app/dev_run.sh"
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Remote Server - run app start script
+        uses: appleboy/ssh-action@master
+        with:
+          host: 13.232.23.217
+          username: ec2-user
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/ec2-user/app
+            ./dev_run.sh

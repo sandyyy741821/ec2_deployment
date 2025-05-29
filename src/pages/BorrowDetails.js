@@ -1,0 +1,4 @@
+
+const BorrowedDetails=({UserName,BookName})=> {
+    
+}
