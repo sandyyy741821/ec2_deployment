@@ -18,15 +18,11 @@ jobs:
           npm run build
         working-directory: .
 
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@5.1
-        with:
-          switches: -avzr --delete
-          path: ./*
-          remote_path: /home/ec2-user/app/
-          remote_host: 13.232.23.217
-          remote_user: ec2-user
-          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
+      - name: Deploy files via rsync
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+          rsync -avzr --delete -e "ssh -i private_key.pem -o StrictHostKeyChecking=no" ./ ec2-user@13.232.23.217:/home/ec2-user/app/
 
       - name: Set ownership and permissions on remote server
         run: |
