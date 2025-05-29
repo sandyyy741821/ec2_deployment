@@ -1,10 +1,13 @@
 #!/bin/bash
 
-# Navigate to app directory
-cd /home/ec2-user/app
+# Optional: stop existing node processes if needed
+pkill node || true
 
-# Install dependencies (just in case)
-npm install
+# Run build if necessary (or skip if already built)
+npm run build
 
-# Start the app (replace with your actual start command)
-npm start
+# Start your app in the background detached from terminal
+nohup npm start > app.log 2>&1 &
+
+# Exit script immediately
+exit 0
