@@ -16,7 +16,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Library Management System</h1>
+      <h1>Library Management </h1>
       <SearchBar
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
