@@ -16,6 +16,7 @@ jobs:
         run: |
           npm install
           npm run build
+        working-directory: library
 
       - name: rsync deployments
         uses: burnett01/rsync-deployments@5.1
