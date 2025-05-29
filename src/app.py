@@ -4,7 +4,7 @@ app=Flask(__name__)
 books = [
     {"id": 1, "title": "Learn Python", "author": "John Doe", "available": True},
     {"id": 2, "title": "Mastering C++", "author": "Jane Smith", "available": True},
-    {"id": 3, "title": "JavaScript for Beginners", "author": "Robert Brown", "available": False},
+    {"id": 3, "title": "JavaScript for Beginners", "author": "Robert Brown", "available": True},
     {"id": 4, "title": "Advanced Java", "author": "Emily White", "available": True},
     {"id": 5, "title": "Data Structures in C", "author": "Michael Green", "available": True},
     {"id": 6, "title": "Algorithms in Python", "author": "Sarah Black", "available": False},
